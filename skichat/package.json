@@ -1,0 +1,23 @@
+{
+  "name": "skicord",
+  "version": "1.0.0",
+  "description": "realtime chat app with rooms - socket.io ",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "dev": "nodemon server"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.1",
+    "moment": "^2.27.0",
+    "mysql": "^2.18.1",
+    "socket.io": "^4.4.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0",
+    "nodemon": "^2.0.4"
+  }
+}
