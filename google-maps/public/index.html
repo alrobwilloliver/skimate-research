@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+          height: 100%;
+        }
+  
+        /* Optional: Makes the sample page fill the window. */
+        html,
+        body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+        }
+      </style>
+    <title>Google map marker</title>
+</head>
+<body>
+    <script>
+      // Initialize and add the map
+      let map, infoWindow
+      function initMap() {
+        // The location of Bansko Todorka
+        const todorka = { lat: 41.760484797222084, lng: 23.434605593508344 };
+        const plato = { lat: 41.7607891677744, lng: 23.446594957463667 };
+        // The map, centered at Todorka
+        map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 16,
+          centre: todorka
+        });
+        // The marker, positioned at Todorka
+        // The marker, positioned at Plato
+        // const marker = new google.maps.Marker({
+        //  position: todorka,
+        //  map: map,
+        // });
+        // The marker, positioned at Plato
+        // const marker2 = new google.maps.Marker({
+        //  position: plato,
+        //  map: map,
+        // });
+
+        infoWindow = new google.maps.InfoWindow();
+
+        const locationButton = document.createElement("button");
+
+        locationButton.textContent = "Pan to Current Location";
+        locationButton.classList.add("custom-map-control-button");
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+        locationButton.addEventListener("click", () => {
+          // Try HTML5 geolocation.
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                const pos = {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude,
+                };
+
+                infoWindow.setPosition(pos);
+                infoWindow.setContent("Location found.");
+                infoWindow.open(map);
+                map.setCenter(pos);
+              },
+              () => {
+                handleLocationError(true, infoWindow, map.getCenter());
+              }
+            );
+          } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+          }
+        })
+      }
+
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(
+          browserHasGeolocation
+            ? "Error: The Geolocation service failed."
+            : "Error: Your browser doesn't support geolocation."
+        );
+        infoWindow.open(map);
+      }
+    </script>
+    <div id="map"></div>
+</body>
+</html>
+<script
+    src="https://maps-api-ssl.google.com/?key=API_KEY&callback=initMap"
+    async
+></script>
